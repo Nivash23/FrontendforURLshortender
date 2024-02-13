@@ -48,7 +48,7 @@ function ResetpasswordForm({ iswrongpassword, setIswrongpassword }) {
       Commonerror.innerText = "";
       setLoading(true);
       const response = await fetch(
-        "https://passwordresettask-dzlj.onrender.com/api/Resetpass/",
+        "https://backendforurlshortender.onrender.com/api/Resetpass/",
         {
           method: "POST",
           headers: {
@@ -74,7 +74,12 @@ function ResetpasswordForm({ iswrongpassword, setIswrongpassword }) {
       }
     } else {
       let commonerr = document.getElementById("commonerror");
-      commonerr.innerText = "Please Enter the required Filed";
+      setInterval(() => {
+        
+        commonerr.innerText = "";
+        commonerr.innerText = "Please Enter the required Filed";
+      }, 1000);
+
     }
   };
   return (
@@ -98,7 +103,7 @@ function ResetpasswordForm({ iswrongpassword, setIswrongpassword }) {
             />
           </div>
           {errors.email.required ? (
-            <span id='rstmsg1'className="text-danger">email is required </span>
+            <span id='rstmsg1'className="text-danger">Email is required </span>
           ) : null}
           <div id="newpass">
             <label>New Password </label>
@@ -134,7 +139,7 @@ function ResetpasswordForm({ iswrongpassword, setIswrongpassword }) {
             />
           </div>
           {errors.confirmpassword.required ? (
-            <span id='rstmsg3' className="text-danger">ConfirmPassword is required </span>
+            <span id='rstmsg3' className="text-danger">Confirm Password is required </span>
           ) : null}
           {loading ? (
             <div className="spinner-border" id="load" role="status">

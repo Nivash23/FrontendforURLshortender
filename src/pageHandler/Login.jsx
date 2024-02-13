@@ -51,7 +51,7 @@ const LoginFrom = ({ isRegistered, setIsRegistered, User, setUser, token, setTok
         
       setLoading(true);
       const response = await fetch(
-        "https://passwordresettask-dzlj.onrender.com/api/Login/",
+        "https://backendforurlshortender.onrender.com/api/Login/",
         {
           method: "POST",
           headers: {
@@ -61,8 +61,8 @@ const LoginFrom = ({ isRegistered, setIsRegistered, User, setUser, token, setTok
         }
       );
       const data = await response.json();
+        if (response.status == 200) {
   
-      if (response.status == 200) {
         const contain = document.getElementById('sucess');
         contain.innerHTML = [
   `<div class="alert alert-success" id='s' role="alert">
@@ -92,7 +92,7 @@ const LoginFrom = ({ isRegistered, setIsRegistered, User, setUser, token, setTok
         console.log("Invalid username or password");
         setLoading(false);
         const commonerr1 = document.getElementById('commonerror');
-        commonerr1.innerText = 'Invalid username or password';
+        commonerr1.innerText = `${data.message}`;
 
         console.log(data);
       }

@@ -5,6 +5,8 @@ import "../styles/App.css";
 // import { MessageContext } from "../App";
 import LoginFrom from "./Login";
 
+
+
 const RegisterForm = ({ isRegistered, setIsRegistered }) => {
   let initialstateerrors = {
     username: { required: false },
@@ -57,7 +59,7 @@ const RegisterForm = ({ isRegistered, setIsRegistered }) => {
       commonerr.innerText = '';
       setLoading(true);
       const response = await fetch(
-        "https://passwordresettask-dzlj.onrender.com/api/users/",
+        "https://backendforurlshortender.onrender.com/api/users/",
         {
           method: "POST",
           headers: {
@@ -68,11 +70,12 @@ const RegisterForm = ({ isRegistered, setIsRegistered }) => {
       );
       const data = await response.json();
       
-          if (response.status == 200) {
+      if (response.status == 200) {
+
             const contain = document.getElementById("sucess");
             contain.innerHTML = [
               `<div class="alert alert-success" id='s' role="alert">
-              User Registered Sucessfully..
+              User Registered sucessfully
             </div>`,
             ];
       
@@ -92,18 +95,23 @@ const RegisterForm = ({ isRegistered, setIsRegistered }) => {
       
             // isRegistered ? <LoginFrom /> : <RegisterForm />;
           } else {
-            console.log("Error");
+        console.log("Error");
+        let commonerr1 = document.getElementById('commonerror');
+        commonerr1.innerText=`${data.message}`
+        
+        setLoading(false);
             console.log(data);
       }
     }
     else {
-      const commonerr = document.getElementById('commonerror');
+     let  commonerr = document.getElementById('commonerror');
       commonerr.innerText = 'please fill the required field';
        console.log('Please Enter the required Field');
     
   
     }
   };
+  let isVerfied = false;
   
   
   
@@ -191,6 +199,9 @@ const RegisterForm = ({ isRegistered, setIsRegistered }) => {
           </form>
         </div>
       </div>
+      <a href='#' onClick={() => {
+        console.log(isVerfied);
+      }}>Click</a>
     </div>
 );
 }
