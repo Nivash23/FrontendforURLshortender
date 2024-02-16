@@ -51,7 +51,7 @@ const LoginFrom = ({ isRegistered, setIsRegistered, User, setUser, token, setTok
         
       setLoading(true);
       const response = await fetch(
-        "https://backendforurlshortender.onrender.com/api/Login/",
+        "https://backendforurlshortender.onrender.com/api/Login",
         {
           method: "POST",
           headers: {
