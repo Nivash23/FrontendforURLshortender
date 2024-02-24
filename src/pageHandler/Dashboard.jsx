@@ -86,7 +86,7 @@ function Dashboard({user,setUser,setIsRegisterd}) {
               <td>{index}</td>
                   <td>{datas.LongURL}</td>
                   
-                  <td ><a href={`http://127.0.0.1:3005/api/RedirectTo?code=${datas.code}`}>{datas.Name }</a></td>
+                  <td ><a href={`https://backendforurlshortender.onrender.com/api/RedirectTo?code=${datas.code}`}>{datas.Name }</a></td>
             </tr>
               )):null
             }
