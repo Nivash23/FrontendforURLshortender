@@ -13,6 +13,7 @@ function userReg() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [iswrongpassword, setIswrongpassword] = useState(false);
+  const [urlDAtA, setUrlDATA] = useState([]);
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -23,7 +24,7 @@ function userReg() {
 
   return (
     <div>
-      <h1>URL Shortender Application</h1>
+      <h1 id='nav'>URL Shortender Application</h1>
       {
         iswrongpassword ? (<ResetpasswordForm iswrongpassword={ iswrongpassword} setIswrongpassword={setIswrongpassword}/>): user ? (<Dashboard token={token} setIsRegistered={setIsRegistered} User={user} setUser={setUser} />) : isRegistered ?
           (<LoginFrom
@@ -31,7 +32,9 @@ function userReg() {
           setIsRegistered={setIsRegistered}
           User={user}
           setUser={setUser}
-          token={token}
+            token={token}
+            urlDATA={urlDAtA}
+            setUrlDATA={setUrlDATA}
             setToken={setToken}
             iswrongpassword={ iswrongpassword} setIswrongpassword={setIswrongpassword}
           />) :

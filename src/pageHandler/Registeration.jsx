@@ -188,7 +188,7 @@ const RegisterForm = ({ isRegistered, setIsRegistered }) => {
             <div className="text-danger" id='commonerror'></div>
             <div id="pageswitch">
               Already have an account ?{" "}
-              <a
+              <a id='loginbutton'
                 onClick={() => {
                   setIsRegistered(true);
                 }}

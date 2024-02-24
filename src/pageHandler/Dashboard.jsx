@@ -1,173 +1,103 @@
-import React, { useEffect, useState } from "react";
-import "../App";
-import "../styles/App.css";
-import axios from "axios";
-function Dashboard({ User, setUser, setIsRegistered}) {
+import React, { useState } from 'react'
+import '../styles/App.css'
+
+function Dashboard({user,setUser,setIsRegisterd}) {
+  const [formData, setFormData] = useState({
+
+    longurl: "",
+    name:"",
+  })
   const token = localStorage.getItem('token');
-
-  const [entrydata, setEntrydata] = useState({
-    Amount: "",
-    Description: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [loading1, setLoading1] = useState(false);
-  const [entries, setEntries] = useState([]);
-  const [entrylist, setEntrylist] = useState(false);
-  // const entrylisthandle = () => {
-  //   const listcontain = document.getElementById('entrieslist');
-  //   if (entrylist)
-  //   {
-  //     console.log(entries);
-  //     listcontain.style.display = 'none';
-  //     setEntrylist(false);
-  //   }
-  //   else {
-  //     listcontain.style.display = 'block';
-  //     setEntrylist(true);
-  //   }
-  // }
-
-  const Datahandler = async (e) => {
-    console.log(token)
+  const [urldata, setUrldata] = useState([]);
+  const [datacode, setDatacode] = useState();
+  
+  const URLhandler =async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    const entrybody = {
-      Amount: entrydata.Amount,
-      Description: entrydata.Description,
-    };
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    try {
-      const response = await axios.post(
-        "https://backendforurlshortender.onrender.com/api/entry/",
-        entrybody,
-        config
-      );
-
-      if (response.status == 200) {
-      alert("entry saved sucessfully...");
-      setLoading(false);
-        console.log(response.data);
-        setEntrydata({ Amount: "", Description: "" });
-      }
-    } catch (e) {
-      console.log(e);
+    const URlData = {
+      LongURL: formData.longurl,
+      Name: formData.name,
     }
-  };
-  const EntriesHandler = async (e) => {
-    e.preventDefault();
-    setLoading1(true);
-
-    const config = {
+    const response = await fetch('https://backendforurlshortender.onrender.com/api/Urlshort', {
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Content-type": "application/json",
+        Authorization:`Bearer ${token}`
       },
-    };
-    try {
-      const response = await axios.get('https://backendforcapstone-cokw.onrender.com/api/entry/', config);
-      console.log('All Entries..');
-      console.log(response.data);
-      setEntries(response.data);
-      if (response.status == 200)
-      {
-        setLoading1(false);
-        }
-      // setLoading(false);
-      
-    }
-    catch (e)
+      body:JSON.stringify(URlData),
+  
+    })
+    const data1 = await response.json();
+    setUrldata(data1.urlData[0].ShortedURLs);
+    if (response.status == 200)
     {
-      console.log(e);
-    }
+      setFormData({
+        longurl: "",
+        name:""
+      })
+      }
   }
-
-//   useEffect(() => {
-//     EntriesHandler();
-// },[])
-
   return (
     <div>
-      <div id="head">
-        <p>
-          Welcome,{User.name}{" "}
-          <button
-            id="logbut"
-            onClick={() => {
-              setUser(null);
-              setIsRegistered(true);
-              localStorage.clear();
-            }}
-          >
-            Logout
-          </button>
-        </p>
-      </div>
-      <div id="dashcontainer">
-        <form onSubmit={Datahandler}>
-          <h3>History Entry:</h3>
-          <div id="amt">
-            <label htmlFor="amount">Amount :</label>
-            <input
-              id="amount"
-              type="number"
-              placeholder="Amount..."
-              value={entrydata.Amount}
-              onChange={(e) => {
-                setEntrydata({ ...entrydata, Amount: e.target.value });
-              }}
+      <div id='formcontainer'>
+        <button id='logbut' onClick={() => {
+          setUser(null);
+          setIsRegisterd(true);
+          localStorage.clear();
+        }}>logout</button>
+
+      <h3>URL Shortender</h3>
+      <form onSubmit={URLhandler}>
+        <div id='longurl'>
+
+        <label>Long URL :</label>
+        <input type='text'
+          placeholder='Long URL...'
+              value={formData.longurl}
               required
-            />
-          </div>
-          <div id="dec">
-            <label htmlFor="desc">Description :</label>
-            <input
-              id="desc"
-              type="text"
-              placeholder="Description...."
-              value={entrydata.Description}
-              onChange={(e) => {
-                setEntrydata({ ...entrydata, Description: e.target.value });
-              }}
+          onChange={(e) => { setFormData({ ...formData, longurl: e.target.value }) }} />
+        </div>
+        <div id='shortname'>
+          <label>ShortName :</label>
+          <input type='text'
+            placeholder='ShortName for your Url...'
+              value={formData.name}
               required
-            />
-          </div>
-          {loading ? (
-            <div className="spinner-border" id="load1" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          ) : null}
-          <div id="savebut">
-            <button type="submit">Save</button>
-          </div>
+            onChange={(e)=>{setFormData({...formData,name:e.target.value})}}
+          />
 
-        </form>
-        {loading1 ? (
-            <div className="spinner-border" id="load2" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          ) : null}
-         <button id='historybut' onClick={EntriesHandler} >View History</button>
+        </div>
+        <button type='submit'>Generate</button>
+      </form>
       </div>
-      <div id='listcontain'>
+      <div id='Urlcontainer'>
+        <table border='2'>
+          <thead >
+            <tr>
+              <th>Id</th>
+              <th>LongUrl</th>
+              <th>ShortUrl</th>
+            </tr>
+          </thead>
+          <tbody >
+            {urldata?
+              urldata.map((datas, index) => (
+                
+            <tr key={index} >
+              <td>{index}</td>
+                  <td>{datas.LongURL}</td>
+                  
+                  <td ><a href={`http://127.0.0.1:3005/api/RedirectTo?code=${datas.code}`}>{datas.Name }</a></td>
+            </tr>
+              )):null
+            }
+                
 
-      <ul>
+          </tbody>
+       </table>
 
-          {
-            entries.map(entry => 
-              <li key={entry._id}>Rs.{entry.Amount}, {entry.Description }</li>
-            )
-              
-          }
-      </ul>
       </div>
-      
-      
     </div>
-  );
+  )
 }
-export default Dashboard;
+
+export default Dashboard

@@ -4,7 +4,7 @@ import "../styles/App.css";
 import "../App";
 import RegisterForm from "./Registeration";
 
-const LoginFrom = ({ isRegistered, setIsRegistered, User, setUser, token, setToken,iswrongpassword,setIswrongpassword }) => {
+const LoginFrom = ({ isRegistered, setIsRegistered, User, setUser, token, setToken,iswrongpassword,setIswrongpassword,urlDATA,setUrlDATA }) => {
   const initialstateerrors = {
      username: { required: false },
      password:{required:false},
@@ -158,7 +158,7 @@ const LoginFrom = ({ isRegistered, setIsRegistered, User, setUser, token, setTok
             </div>
           <div className="text-danger" id='commonerror'></div>
           <div id='pageswitch'>
-              Create new Account ? please <a onClick={() => { setIsRegistered(false) }}>Register</a>
+              Create new Account ? please <a id='regbutton' onClick={() => { setIsRegistered(false) }}>Register</a>
             </div>
             <p id='resetbut'   onClick={() =>{setIswrongpassword(true)}}>Forgot Password?</p>
         </form>
